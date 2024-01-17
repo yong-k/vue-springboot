@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.web2.mapper.CommentMapper">
+
+    <insert id="createComment">
+        INSERT INTO Comment (postId, name, email, body)
+        VALUES (#{postId}, #{name}, #{email}, #{body})
+    </insert>
+
+    <select id="getAllComment" resultType="com.study.web2.vo.CommentVo">
+        SELECT id, postId, name, email, body
+        FROM Comment
+        <where>
+            <if test="postId != null">
+                postId = #{postId}
+            </if>
+            <if test="name != null">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="email != null">
+                AND email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="body != null">
+                AND body LIKE CONCAT('%', #{body}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{numOfRows} OFFSET #{pageNum}
+    </select>
+
+    <select id="countComment" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM Comment
+        <where>
+            <if test="postId != null">
+                postId = #{postId}
+            </if>
+            <if test="name != null">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="email != null">
+                AND email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="body != null">
+                AND body LIKE CONCAT('%', #{body}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getCommentById" resultType="com.study.web2.vo.CommentVo">
+        SELECT id, postId, name, email, body
+        FROM Comment
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateComment">
+        UPDATE Comment
+        SET name = #{name},
+            email = #{email},
+            body = #{body}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteComment">
+        DELETE FROM Comment
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

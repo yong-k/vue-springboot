@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.web2.mapper.PostMapper">
+
+    <insert id="createPost">
+        INSERT INTO Post (userId, title, body)
+        VALUES (#{userId}, #{title}, #{body})
+    </insert>
+
+    <select id="getAllPost" resultType="com.study.web2.vo.PostVo">
+        SELECT id, userId, title, body
+        FROM Post
+        <where>
+            <if test="userId != null">
+                userId = #{userId}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="body != null">
+                AND body LIKE CONCAT('%', #{body}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{numOfRows} OFFSET #{pageNum}
+    </select>
+
+    <select id="countPost" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM Post
+        <where>
+            <if test="userId != null">
+                userId = #{userId}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="body != null">
+                AND body LIKE CONCAT('%', #{body}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getPostById" resultType="com.study.web2.vo.PostVo">
+        SELECT id, userId, title, body
+        FROM Post
+        WHERE id = #{id}
+    </select>
+
+    <update id="updatePost">
+        UPDATE Post
+        SET title = #{title},
+            body = #{body}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePost">
+        DELETE FROM Post
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

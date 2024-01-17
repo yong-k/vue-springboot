@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.web2.mapper.AlbumMapper">
+
+    <insert id="createAlbum">
+        INSERT INTO Album (userId, title)
+        VALUES (#{userId}, #{title})
+    </insert>
+
+    <select id="getAllAlbum" resultType="com.study.web2.vo.AlbumVo">
+        SELECT id, userId, title
+        FROM Album
+        <where>
+            <if test="userId != null">
+                userId = #{userId}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{numOfRows} OFFSET #{pageNum}
+    </select>
+
+    <select id="countAlbum" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM Album
+        <where>
+            <if test="userId != null">
+                userId = #{userId}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getAlbumById" resultType="com.study.web2.vo.AlbumVo">
+        SELECT id, userId, title
+        FROM Album
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateAlbum">
+        UPDATE Album
+        SET title = #{title}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteAlbum">
+        DELETE FROM Album
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
