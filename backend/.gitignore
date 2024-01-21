@@ -38,3 +38,6 @@ out/
 
 ### LOG File ###
 log
+
+### Custom ###
+application.properties
