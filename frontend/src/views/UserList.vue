@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/scripts/router';
 import axios from 'axios';
 import { ref } from 'vue';
 
@@ -26,10 +27,17 @@ function pageUp() {
     userList.value = res.data.userList
   })
 }
+
+const showUserDetail = (id) => {
+  router.push({ path: "/user/detail?id=" + id })
+}
 </script>
 
 <template>
-  <table class="table table-hover">
+  <div class="btn-right-box">
+    <v-btn to="/user/regist" variant="flat" color="#5865f2" id="insert-btn">회원 등록</v-btn>
+  </div>
+  <v-table>
     <thead>
       <tr>
         <th scope="col">id</th>
@@ -43,7 +51,7 @@ function pageUp() {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in userList" :key="user">
+      <tr v-for="user in userList" :key="user" @click="showUserDetail(user.id)">
         <th scope="row">{{ user.id }}</th>
         <td>{{ user.name }}</td>
         <td>{{ user.username }}</td>
@@ -51,27 +59,22 @@ function pageUp() {
         <td>{{ user.address }}</td>
         <td>{{ user.phone }}</td>
         <td>{{ user.website }}</td>
-        <td>{{ user.company }}</td>               
+        <td>{{ user.company }}</td>
       </tr>
     </tbody>
-  </table>
+  </v-table>
 
-  <div class="btn-box">
-    <button @click="pageDown" class="btn btn-primary" :disabled="pageNum - 1 === 0">prev</button>
+  <div class="btn-center-box">
+    <v-btn variant="flat" color="#5865f2" @click="pageDown" :disabled="pageNum - 1 === 0">prev</v-btn>
     <span id="nowPageNum">{{ pageNum }}</span>
-    <button @click="pageUp" class="btn btn-primary" :disabled="pageNum === totalPages">next</button>
+    <v-btn variant="flat" color="#5865f2" @click="pageUp" :disabled="pageNum === totalPages">next</v-btn>
   </div>
 </template>
 
 <style scoped>
-.btn-box {
-  padding-top: 10px;
-  text-align: center;
-}
-
-button {
-  margin-left: 5px;
-  width: 70px;
+table tbody tr:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
 }
 
 span#nowPageNum {

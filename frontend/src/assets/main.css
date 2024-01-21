@@ -6,6 +6,16 @@
   padding: 2rem;
   font-weight: normal;
 }
+
+.btn-right-box {
+  text-align: right;
+}
+
+.btn-center-box {
+  padding-top: 10px;
+  text-align: center;
+}
+
 /*
 a,
 .green {

@@ -1,9 +1,8 @@
 <script setup>
-import UserList from './views/UserList.vue'
 </script>
 
 <template>
-  <UserList />
+  <router-view></router-view>
 </template>
 
 <style scoped>
