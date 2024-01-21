@@ -29,7 +29,7 @@ function pageUp() {
 }
 
 const showUserDetail = (id) => {
-  router.push({ path: "/user/detail?id=" + id })
+  router.push({ path: "/user/detail/" + id })
 }
 </script>
 
@@ -65,9 +65,9 @@ const showUserDetail = (id) => {
   </v-table>
 
   <div class="btn-center-box">
-    <v-btn variant="flat" color="#5865f2" @click="pageDown" :disabled="pageNum - 1 === 0">prev</v-btn>
+    <v-btn class="first-btn" variant="flat" color="#5865f2" @click="pageDown" :disabled="pageNum - 1 === 0">prev</v-btn>
     <span id="nowPageNum">{{ pageNum }}</span>
-    <v-btn variant="flat" color="#5865f2" @click="pageUp" :disabled="pageNum === totalPages">next</v-btn>
+    <v-btn class="second-btn" variant="flat" color="#5865f2" @click="pageUp" :disabled="pageNum === totalPages">next</v-btn>
   </div>
 </template>
 

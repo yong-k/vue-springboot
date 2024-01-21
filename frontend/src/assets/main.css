@@ -12,8 +12,16 @@
 }
 
 .btn-center-box {
-  padding-top: 10px;
+  padding-top: 40px;
   text-align: center;
+}
+
+.btn-center-box .first-btn {
+  margin-right: 10px;
+}
+
+.btn-center-box .second-btn {
+  margin-left: 10px;
 }
 
 /*
