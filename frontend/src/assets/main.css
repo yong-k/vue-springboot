@@ -7,6 +7,14 @@
   font-weight: normal;
 }
 
+div.container {
+  padding-top: 1%;
+}
+
+.page-title {
+  font-weight: bold;
+}
+
 .btn-right-box {
   text-align: right;
 }

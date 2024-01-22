@@ -109,4 +109,18 @@ public class UserController {
         }
         return commonRespDto;
     }
+
+    @GetMapping("/checkusername")
+    public BooleanRespDto checkDuplicateUsername(@RequestParam String username) {
+        BooleanRespDto booleanRespDto = new BooleanRespDto();
+        booleanRespDto.setTrue(userService.countDuplicateUsername(username) <= 0);
+        return booleanRespDto;
+    }
+
+    @GetMapping("/checkemail")
+    public BooleanRespDto checkDuplicateEmail(@RequestParam String username, @RequestParam String email) {
+        BooleanRespDto booleanRespDto = new BooleanRespDto();
+        booleanRespDto.setTrue(userService.countDuplicateEmail(username, email) <= 0);
+        return booleanRespDto;
+    }
 }

@@ -18,4 +18,8 @@ public interface UserMapper {
     int updateUser(UserVo user);
 
     int deleteUser(long id);
+
+    int countDuplicateUsername(String username);
+
+    int countDuplicateEmail(String username, String email);
 }

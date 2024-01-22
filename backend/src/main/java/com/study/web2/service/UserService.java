@@ -45,4 +45,12 @@ public class UserService {
         if (result < 1)
             throw new DataNotFoundException("[DELETE fail] Not exist user: id = " + id);
     }
+
+    public int countDuplicateUsername(String username) {
+        return userMapper.countDuplicateUsername(username);
+    }
+
+    public int countDuplicateEmail(String username, String email) {
+        return userMapper.countDuplicateEmail(username, email);
+    }
 }
