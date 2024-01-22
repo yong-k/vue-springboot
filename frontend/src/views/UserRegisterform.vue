@@ -9,7 +9,6 @@ const form = reactive({
   email: "",
   password: "",
   address: "",
-  address: "",
   phone: "",
   website: "",
   company: ""

@@ -5,14 +5,17 @@ import { ref } from 'vue';
 
 const userList = ref([])
 const pageNum = ref(1)
-//const numOfRows = ref(10)
-const numOfRows = ref(5)
+const numOfRows = ref(10)
 const totalPages = ref(0)
 
 axios.get("/api/user?numOfRows=" + numOfRows.value).then(res => {
   userList.value = res.data.userList
   totalPages.value = res.data.page.totalPages
 })
+
+const showUserDetail = (id) => {
+  router.push({ path: "/user/detail/" + id })
+}
 
 function pageDown() {
   pageNum.value--
@@ -26,10 +29,6 @@ function pageUp() {
   axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + numOfRows.value).then(res => {
     userList.value = res.data.userList
   })
-}
-
-const showUserDetail = (id) => {
-  router.push({ path: "/user/detail/" + id })
 }
 </script>
 
