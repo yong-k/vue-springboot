@@ -69,7 +69,7 @@ function checkPassword(pw, checkPw) {
     passwordErrMsg.value = []
   } else {
     passwordErrMsg.value = ['비밀번호가 일치하지 않습니다.']
-    isValid = false
+    //isValid = false
     return false
   }
   return true
