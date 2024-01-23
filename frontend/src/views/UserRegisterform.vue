@@ -19,15 +19,16 @@ const passwordCheck = ref("")
 const usernameErrMsg = ref([])
 const emailErrMsg = ref([])
 const passwordErrMsg = ref([])
-let isValid = true
+let usernameFlag = false
+let emailFlag = false
+let passwordFlag = false
 
 const checkValid = () => {
   if (!form.username || !form.email || !form.password || !passwordCheck.value) {
-    isValid = false
     return false
   }
 
-  if (isValid) {
+  if (usernameFlag && emailFlag && passwordFlag) {
     submit()
   }
   return false
@@ -36,14 +37,12 @@ const checkValid = () => {
 function checkUsername(username) {
   const params = { username: username }
   axios.get("/api/checkusername", {params}).then((res) => {
-    const isAvailable = res.data.true
-    if (isAvailable) {
+    usernameFlag = res.data.true
+    if (usernameFlag) 
       usernameErrMsg.value = []
-    } else {
+    else
       usernameErrMsg.value = '사용할 수 없는 아이디입니다.'   
-      isValid = false 
-    }
-    return isAvailable
+    return usernameFlag
   })
 }
 
@@ -53,26 +52,24 @@ function checkEmail(username, email) {
     email: email
   }
   axios.get("/api/checkemail", {params}).then((res) => {
-    const isAvailable = res.data.true
-    if (isAvailable) {
+    emailFlag = res.data.true
+    if (emailFlag)
       emailErrMsg.value = []
-    } else {
+    else
       emailErrMsg.value = ['사용할 수 없는 이메일입니다.']
-      isValid = false
-    }
-    return isAvailable
+    return emailFlag
   })
 }
 
 function checkPassword(pw, checkPw) {
   if (pw === checkPw) {
     passwordErrMsg.value = []
+    passwordFlag = true
   } else {
     passwordErrMsg.value = ['비밀번호가 일치하지 않습니다.']
-    //isValid = false
-    return false
+    passwordFlag = false
   }
-  return true
+  return passwordFlag
 }
 
 function submit() {
