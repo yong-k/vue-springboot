@@ -23,6 +23,15 @@ const router = createRouter({
             path: '/user/update/:id',
             name: 'userUpdateform',
             component: () => import('@/views/UserUpdateform.vue')
+        },
+        /////////////////
+        {
+            path: '/user/test/:id',
+            component: () => import('@/views/Test.vue')
+        },
+        {
+            path: '/user/test2/:id',
+            component: () => import('@/views/Test2.vue')
         }
     ]
 })
