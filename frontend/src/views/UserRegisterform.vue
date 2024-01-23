@@ -1,8 +1,7 @@
 <script setup>
 import router from '@/scripts/router';
 import axios from 'axios';
-import { ref } from 'vue';
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue';
 
 const form = reactive({
   name: "",
@@ -67,7 +66,12 @@ function checkPassword(pw, checkPw) {
     passwordFlag = true
   } else {
     passwordErrMsg.value = ['비밀번호가 일치하지 않습니다.']
+<<<<<<< HEAD
     passwordFlag = false
+=======
+    //isValid = false
+    return false
+>>>>>>> bcb8e24777d04028f2f1a07e8644de81a06c61aa
   }
   return passwordFlag
 }

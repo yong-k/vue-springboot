@@ -5,7 +5,6 @@ import { createPinia } from 'pinia'
 import router from '@/scripts/router'
 import App from './App.vue'
 
-
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify/lib/framework.mjs'
