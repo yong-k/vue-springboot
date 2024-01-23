@@ -1,12 +1,11 @@
 <script setup>
-import router from '@/scripts/router';
-import axios from 'axios';
-import { reactive } from 'vue';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import router from '@/router/index'
+import axios from 'axios'
+import { ref, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const userInfo = ref([])
+const userInfo = ref({})
 const form = reactive({
   name: "",
   username: "",
@@ -18,7 +17,30 @@ const form = reactive({
   company: ""
 })
 
-axios.get(`/api/user/${ route.params.id }`).then((res) => {
+const rules = {
+  required: value => !!value || '필수 항목입니다.',
+  email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || '이메일 형식을 확인해주세요.'
+          }
+}
+
+const updateUser = () => {
+  axios.put(`/api/user/${route.params.id}`, form)
+  .then((res) => {
+    if (res.data.code === 0)
+      router.push({ path: `/user/detail/${ route.params.id }` })
+    else
+      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
+  })
+}
+
+axios.get(`/api/user/${ route.params.id }`)
+.then((res) => {
   userInfo.value = res.data.user
   form.name = userInfo.value.name
   form.username = userInfo.value.username
@@ -28,23 +50,10 @@ axios.get(`/api/user/${ route.params.id }`).then((res) => {
   form.website = userInfo.value.website
   form.company = userInfo.value.company
 })
-
-const updateUser = () => {
-  axios.put(`/api/user/${route.params.id}`, form).then((res) => {
-    if (res.data.code === 0)
-      router.push({ path: `/user/detail/${ route.params.id }` })
-    else
-      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
-  })
-}
-
-const rules = {
-  required: value => !!value || '필수 항목입니다.',
-  email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || '이메일 형식을 확인해주세요.'
-          }
-}
+.catch(err => {
+  console.log(err)
+  window.alert('예상치 못한 오류가 발생했습니다.');
+})
 </script>
 
 <template>

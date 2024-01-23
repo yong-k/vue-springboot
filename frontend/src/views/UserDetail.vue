@@ -1,19 +1,16 @@
 <script setup>
-import router from '@/scripts/router';
-import axios from 'axios';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import router from '@/router/index'
+import axios from 'axios'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const userInfo = ref([])
-
-axios.get(`/api/user/${ route.params.id }`).then((res) => {
-  userInfo.value = res.data.user
-})
+const userInfo = ref({})
 
 const deleteUser = () => {
   if (window.confirm("삭제하시겠습니까?")) {
-    axios.delete(`/api/user/${ route.params.id }`).then((res) => {
+    axios.delete(`/api/user/${ route.params.id }`)
+    .then((res) => {
       if (res.data.code === 0) {
         window.alert('삭제가 완료되었습니다.');
         router.push({ path: "/" })
@@ -21,8 +18,21 @@ const deleteUser = () => {
         window.alert('오류가 발생했습니다. 다시 시도해주세요.')
       }
     })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.');
+    })
   }
 }
+
+axios.get(`/api/user/${ route.params.id }`)
+.then((res) => {
+  userInfo.value = res.data.user
+})
+.catch(err => {
+  console.log(err)
+  window.alert('예상치 못한 오류가 발생했습니다.');
+})
 </script>
 
 <template>
@@ -39,7 +49,7 @@ const deleteUser = () => {
         <v-text-field label="company" v-model="userInfo.company" readonly />
       </v-form>
     </v-sheet>
-     <div class="btn-center-box">
+    <div class="btn-center-box">
       <v-btn :to="'/user/update/' + userInfo.id" class="first-btn" variant="flat" color="#5865f2" size="large">수정</v-btn>
       <v-btn @click="deleteUser()" class="second-btn" variant="flat" color="#5865f2" size="large">삭제</v-btn>
     </div>

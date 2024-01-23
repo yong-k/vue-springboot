@@ -1,7 +1,15 @@
 <script setup>
-import router from '@/scripts/router';
-import axios from 'axios';
-import { ref, reactive } from 'vue';
+import router from '@/router/index'
+import axios from 'axios'
+import { ref, reactive } from 'vue'
+
+const passwordCheck = ref("")
+const usernameErrMsg = ref([])
+const emailErrMsg = ref([])
+const passwordErrMsg = ref([])
+let usernameFlag = false
+let emailFlag = false
+let passwordFlag = false
 
 const form = reactive({
   name: "",
@@ -13,77 +21,6 @@ const form = reactive({
   website: "",
   company: ""
 })
-
-const passwordCheck = ref("")
-const usernameErrMsg = ref([])
-const emailErrMsg = ref([])
-const passwordErrMsg = ref([])
-let usernameFlag = false
-let emailFlag = false
-let passwordFlag = false
-
-const checkValid = () => {
-  if (!form.username || !form.email || !form.password || !passwordCheck.value) {
-    return false
-  }
-
-  if (usernameFlag && emailFlag && passwordFlag) {
-    submit()
-  }
-  return false
-}
-
-function checkUsername(username) {
-  const params = { username: username }
-  axios.get("/api/checkusername", {params}).then((res) => {
-    usernameFlag = res.data.true
-    if (usernameFlag) 
-      usernameErrMsg.value = []
-    else
-      usernameErrMsg.value = '사용할 수 없는 아이디입니다.'   
-    return usernameFlag
-  })
-}
-
-function checkEmail(username, email) {
-  const params = {
-    username: username,
-    email: email
-  }
-  axios.get("/api/checkemail", {params}).then((res) => {
-    emailFlag = res.data.true
-    if (emailFlag)
-      emailErrMsg.value = []
-    else
-      emailErrMsg.value = ['사용할 수 없는 이메일입니다.']
-    return emailFlag
-  })
-}
-
-function checkPassword(pw, checkPw) {
-  if (pw === checkPw) {
-    passwordErrMsg.value = []
-    passwordFlag = true
-  } else {
-    passwordErrMsg.value = ['비밀번호가 일치하지 않습니다.']
-<<<<<<< HEAD
-    passwordFlag = false
-=======
-    //isValid = false
-    return false
->>>>>>> bcb8e24777d04028f2f1a07e8644de81a06c61aa
-  }
-  return passwordFlag
-}
-
-function submit() {
-  axios.post("/api/user", form).then((res) => {
-    if (res.data.code === 0) 
-      router.push({ path: "/" })
-    else 
-      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
-  })
-}
 
 const rules = {
   required: value => !!value || '필수 항목입니다.',
@@ -97,6 +34,78 @@ const rules = {
   },
   password: value => checkPassword(value, passwordCheck.value),
   passwordCheck: value => checkPassword(form.password, value)
+}
+
+const checkValid = () => {
+  if (!form.username || !form.email || !form.password || !passwordCheck.value)
+    return false
+
+  if (usernameFlag && emailFlag && passwordFlag) 
+    submit()
+
+  return false
+}
+
+function checkUsername(username) {
+  const params = { username: username }
+  axios.get("/api/checkusername", {params})
+  .then((res) => {
+    usernameFlag = res.data.true
+    if (usernameFlag) 
+      usernameErrMsg.value = []
+    else
+      usernameErrMsg.value = '사용할 수 없는 아이디입니다.'   
+    return usernameFlag
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
+  })
+}
+
+function checkEmail(username, email) {
+  const params = {
+    username: username,
+    email: email
+  }
+  axios.get("/api/checkemail", {params})
+  .then((res) => {
+    emailFlag = res.data.true
+    if (emailFlag)
+      emailErrMsg.value = []
+    else
+      emailErrMsg.value = ['사용할 수 없는 이메일입니다.']
+    return emailFlag
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
+  })
+}
+
+function checkPassword(pw, checkPw) {
+  if (pw === checkPw) {
+    passwordErrMsg.value = []
+    passwordFlag = true
+  } else {
+    passwordErrMsg.value = ['비밀번호가 일치하지 않습니다.']
+    passwordFlag = false
+  }
+  return passwordFlag
+}
+
+function submit() {
+  axios.post("/api/user", form)
+  .then((res) => {
+    if (res.data.code === 0) 
+      router.push({ path: "/" })
+    else 
+      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
+  })
 }
 </script>
 

@@ -1,17 +1,12 @@
 <script setup>
-import router from '@/scripts/router';
-import axios from 'axios';
-import { ref } from 'vue';
+import router from '@/router/index'
+import axios from 'axios'
+import { ref } from 'vue'
 
+const NUM_OF_ROWS = 10
 const userList = ref([])
 const pageNum = ref(1)
-const numOfRows = ref(10)
 const totalPages = ref(0)
-
-axios.get("/api/user?numOfRows=" + numOfRows.value).then(res => {
-  userList.value = res.data.userList
-  totalPages.value = res.data.page.totalPages
-})
 
 const showUserDetail = (id) => {
   router.push({ path: "/user/detail/" + id })
@@ -19,17 +14,37 @@ const showUserDetail = (id) => {
 
 function pageDown() {
   pageNum.value--
-  axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + numOfRows.value).then(res => {
+  axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + NUM_OF_ROWS)
+  .then(res => {
     userList.value = res.data.userList
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
   })
 }
 
 function pageUp() {
   pageNum.value++
-  axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + numOfRows.value).then(res => {
+  axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + NUM_OF_ROWS)
+  .then(res => {
     userList.value = res.data.userList
   })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
+  })
 }
+
+axios.get("/api/user?numOfRows=" + NUM_OF_ROWS)
+.then(res => {
+  userList.value = res.data.userList
+  totalPages.value = res.data.page.totalPages
+})
+.catch(err => {
+  console.log(err)
+  window.alert('예상치 못한 오류가 발생했습니다.');
+})
 </script>
 
 <template>
