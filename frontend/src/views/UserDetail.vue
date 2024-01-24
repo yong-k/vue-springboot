@@ -1,15 +1,18 @@
 <script setup>
+import { useUserStore } from '@/stores/user'
 import router from '@/router/index'
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+const id = route.params.id 
+const userStore = new useUserStore()
 const userInfo = ref({})
 
 const deleteUser = () => {
   if (window.confirm("삭제하시겠습니까?")) {
-    axios.delete(`/api/user/${ route.params.id }`)
+    axios.delete("/api/user/" + id)
     .then((res) => {
       if (res.data.code === 0) {
         window.alert('삭제가 완료되었습니다.');
@@ -25,14 +28,18 @@ const deleteUser = () => {
   }
 }
 
-axios.get(`/api/user/${ route.params.id }`)
-.then((res) => {
-  userInfo.value = res.data.user
+onMounted(async() => {
+    if (!userStore.getUserById(id))
+        await userStore.getUser(id)
+    userInfo.value = userStore.getUserById(id)
 })
-.catch(err => {
-  console.log(err)
-  window.alert('예상치 못한 오류가 발생했습니다.');
-})
+
+// 테스트용
+if (!userStore.getUserById(id)) {
+    console.log("데이터 없음")
+} else {
+    console.log("데이터 있음")
+}
 </script>
 
 <template>
