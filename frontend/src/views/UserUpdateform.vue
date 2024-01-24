@@ -41,18 +41,18 @@ const updateUser = () => {
 
 axios.get(`/api/user/${ route.params.id }`)
 .then((res) => {
-  userInfo.value = res.data.user
-  form.name = userInfo.value.name
-  form.username = userInfo.value.username
-  form.email = userInfo.value.email
-  form.address = userInfo.value.address
-  form.phone = userInfo.value.phone
-  form.website = userInfo.value.website
-  form.company = userInfo.value.company
-})
-.catch(err => {
-  console.log(err)
-  window.alert('예상치 못한 오류가 발생했습니다.');
+    userInfo.value = res.data.user
+    form.name = userInfo.value.name
+    form.username = userInfo.value.username
+    form.email = userInfo.value.email
+    form.address = userInfo.value.address
+    form.phone = userInfo.value.phone
+    form.website = userInfo.value.website
+    form.company = userInfo.value.company
+  })
+  .catch(err => {
+    console.log(err)
+    window.alert('예상치 못한 오류가 발생했습니다.');
 })
 </script>
 

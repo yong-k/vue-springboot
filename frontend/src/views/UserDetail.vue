@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = route.params.id 
-const userStore = new useUserStore()
+const userStore = useUserStore()
 const userInfo = ref({})
 
 const deleteUser = () => {
