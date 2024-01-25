@@ -10,7 +10,6 @@ const totalPages = ref(0)
 
 const showUserDetail = (id) => {
   router.push({ path: "/user/detail/" + id })
-  //router.push({ path: "/user/test2/" + id })
 }
 
 function pageDown() {

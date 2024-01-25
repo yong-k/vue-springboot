@@ -33,13 +33,6 @@ onMounted(async() => {
         await userStore.getUser(id)
     userInfo.value = userStore.getUserById(id)
 })
-
-// 테스트용
-if (!userStore.getUserById(id)) {
-    console.log("데이터 없음")
-} else {
-    console.log("데이터 있음")
-}
 </script>
 
 <template>
