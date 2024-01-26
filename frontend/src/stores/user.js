@@ -1,18 +1,14 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { reactive } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
-    const users = ref([])
+    const users = reactive(new Map())
     
-    function getUserById(userId) {
-        return this.users.find((user) => user.id === parseInt(userId))
-    }
-
     async function getUser(userId) {
         try {
             const response = await axios.get("/api/user/" + userId)
-            this.users.push(response.data.user)
+            this.users.set(userId, response.data.user)
             console.log("Call getUser() in actions")
         } catch(err) {
             console.log(err)
@@ -20,5 +16,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { users, getUserById, getUser }
+    return { users, getUser }
 })

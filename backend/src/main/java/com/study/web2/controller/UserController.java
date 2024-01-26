@@ -2,10 +2,7 @@ package com.study.web2.controller;
 
 import com.study.web2.consts.ResultCode;
 import com.study.web2.dto.*;
-import com.study.web2.dto.user.CreateUserReqDto;
-import com.study.web2.dto.user.GetAllUserRespDto;
-import com.study.web2.dto.user.GetUserRespDto;
-import com.study.web2.dto.user.UpdateUserReqDto;
+import com.study.web2.dto.user.*;
 import com.study.web2.exception.DataNotFoundException;
 import com.study.web2.service.UserService;
 import com.study.web2.utils.Pagination;
@@ -72,26 +69,48 @@ public class UserController {
         }
         return getUserRespDto;
     }
+//
+//    @PutMapping("/user/{id}")
+//    public CommonRespDto updateUser(@PathVariable long id, @RequestBody UpdateUserReqDto updateUserReqDto) {
+//        CommonRespDto commonRespDto = new CommonRespDto();
+//        try {
+//            UserVo user = new UserVo(updateUserReqDto);
+//            user.setId(id);
+//            userService.updateUser(user);
+//        } catch (DataNotFoundException e) {
+//            commonRespDto.setCode(ResultCode.DATA_NOT_FOUND.value());
+//            commonRespDto.setMessage(e.getLocalizedMessage());
+//        } catch (DataIntegrityViolationException e) {
+//            commonRespDto.setCode(ResultCode.DATA_INTEGRITY_VIOLATION.value());
+//            commonRespDto.setMessage("UPDATE fail");
+//        } catch (Exception e) {
+//            commonRespDto.setCode(ResultCode.UNKNOWN_ERROR.value());
+//            commonRespDto.setMessage("Unexpected Error");
+//            log.error("Error in UserController.updateUser()", e);
+//        }
+//        return commonRespDto;
+//    }
 
     @PutMapping("/user/{id}")
-    public CommonRespDto updateUser(@PathVariable long id, @RequestBody UpdateUserReqDto updateUserReqDto) {
-        CommonRespDto commonRespDto = new CommonRespDto();
+    public UpdateUserRespDto updateUser(@PathVariable long id, @RequestBody UpdateUserReqDto updateUserReqDto) {
+        UpdateUserRespDto updateUserRespDto = new UpdateUserRespDto();
         try {
             UserVo user = new UserVo(updateUserReqDto);
             user.setId(id);
             userService.updateUser(user);
+            updateUserRespDto.setUser(user);
         } catch (DataNotFoundException e) {
-            commonRespDto.setCode(ResultCode.DATA_NOT_FOUND.value());
-            commonRespDto.setMessage(e.getLocalizedMessage());
+            updateUserRespDto.setCode(ResultCode.DATA_NOT_FOUND.value());
+            updateUserRespDto.setMessage(e.getLocalizedMessage());
         } catch (DataIntegrityViolationException e) {
-            commonRespDto.setCode(ResultCode.DATA_INTEGRITY_VIOLATION.value());
-            commonRespDto.setMessage("UPDATE fail");
+            updateUserRespDto.setCode(ResultCode.DATA_INTEGRITY_VIOLATION.value());
+            updateUserRespDto.setMessage("UPDATE fail");
         } catch (Exception e) {
-            commonRespDto.setCode(ResultCode.UNKNOWN_ERROR.value());
-            commonRespDto.setMessage("Unexpected Error");
+            updateUserRespDto.setCode(ResultCode.UNKNOWN_ERROR.value());
+            updateUserRespDto.setMessage("Unexpected Error");
             log.error("Error in UserController.updateUser()", e);
         }
-        return commonRespDto;
+        return updateUserRespDto;
     }
 
     @DeleteMapping("/user/{id}")

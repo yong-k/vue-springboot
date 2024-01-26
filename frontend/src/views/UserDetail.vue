@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const id = route.params.id 
 const userStore = useUserStore()
+const { getUser } = userStore
 const userInfo = ref({})
 
 const deleteUser = () => {
@@ -29,9 +30,9 @@ const deleteUser = () => {
 }
 
 onMounted(async() => {
-    if (!userStore.getUserById(id))
-        await userStore.getUser(id)
-    userInfo.value = userStore.getUserById(id)
+  if (!userStore.users.get(id))
+    await getUser(id)
+  userInfo.value = userStore.users.get(id)
 })
 </script>
 

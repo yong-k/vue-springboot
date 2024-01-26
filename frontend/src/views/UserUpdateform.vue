@@ -1,10 +1,15 @@
 <script setup>
+import { useUserStore } from '@/stores/user'
 import router from '@/router/index'
 import axios from 'axios'
+import { onMounted } from 'vue';
 import { ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+const id = route.params.id 
+const userStore = useUserStore()
+const { getUser } = userStore
 const userInfo = ref({})
 const form = reactive({
   name: "",
@@ -26,12 +31,14 @@ const rules = {
 }
 
 const updateUser = () => {
-  axios.put(`/api/user/${route.params.id}`, form)
+  axios.put("/api/user/" + id, form)
   .then((res) => {
-    if (res.data.code === 0)
-      router.push({ path: `/user/detail/${ route.params.id }` })
-    else
+    if (res.data.code === 0) {
+      userStore.users.set(id, res.data.user) 
+      router.push({ path: "/user/detail/" + id })
+    } else {
       window.alert('오류가 발생했습니다. 다시 시도해주세요.')
+    }
   })
   .catch(err => {
     console.log(err)
@@ -39,20 +46,18 @@ const updateUser = () => {
   })
 }
 
-axios.get(`/api/user/${ route.params.id }`)
-.then((res) => {
-    userInfo.value = res.data.user
-    form.name = userInfo.value.name
-    form.username = userInfo.value.username
-    form.email = userInfo.value.email
-    form.address = userInfo.value.address
-    form.phone = userInfo.value.phone
-    form.website = userInfo.value.website
-    form.company = userInfo.value.company
-  })
-  .catch(err => {
-    console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.');
+onMounted(async() => {
+  if (!userStore.users.get(id))
+    await getUser(id)
+  
+  userInfo.value = userStore.users.get(id)
+  form.name = userInfo.value.name
+  form.username = userInfo.value.username
+  form.email = userInfo.value.email
+  form.address = userInfo.value.address
+  form.phone = userInfo.value.phone
+  form.website = userInfo.value.website
+  form.company = userInfo.value.company  
 })
 </script>
 
