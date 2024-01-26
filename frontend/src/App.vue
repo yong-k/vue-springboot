@@ -1,11 +1,14 @@
 <script setup>
+import Header from '@/components/Header.vue'
+import { ref } from 'vue';
+const flag = ref(true)
 </script>
 
 <template>
-  <router-link to="/">
-    <img id="logo" src="/favicon.ico" to="/">
-  </router-link>
-  <router-view></router-view>
+  <v-app>
+    <Header v-if="flag" />
+    <router-view :flag="flag"></router-view>
+  </v-app>
 </template>
 
 <style scoped>
