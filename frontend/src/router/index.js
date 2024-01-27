@@ -12,14 +12,14 @@ const router = createRouter({
             component: Home
         },
         {
-            path: '/user/list',
-            name: 'userList',
-            component: UserList
-        },
-        {
             path: '/login',
             name: 'Login',
             component: Login
+        },
+        {
+            path: '/user/list',
+            name: 'userList',
+            component: UserList
         },
         {       
             path: '/user/regist',

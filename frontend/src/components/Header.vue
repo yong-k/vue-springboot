@@ -1,10 +1,20 @@
 <script setup>
+import { ref } from 'vue';
+
+let isVisible = ref('true')
+
+if (window.location.pathname === '/') 
+    isVisible = false
+else
+    isVisible = true
+
+console.log(isVisible)
 </script>
 
 <template>
-    <div id="header">
+    <div id="header" v-if="isVisible">
         <router-link to="/">
-            <img id="logo" src="/favicon.ico" to="/">
+            <img id="logo" src="/vue-home.png" to="/">
         </router-link>
         <div class="header-right-box">
             <a href="">로그인</a>
