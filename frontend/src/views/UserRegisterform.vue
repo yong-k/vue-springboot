@@ -96,7 +96,7 @@ function checkPassword(pw, checkPw) {
 
 function submit() {
   axios.post("/api/user", form)
-  .then((res) => {
+  .then(res => {
     if (res.data.code === 0) 
       router.push({ path: "/" })
     else 
@@ -104,7 +104,7 @@ function submit() {
   })
   .catch(err => {
     console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.');
+    window.alert('예상치 못한 오류가 발생했습니다.')
   })
 }
 </script>

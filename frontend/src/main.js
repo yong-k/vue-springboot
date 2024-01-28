@@ -1,9 +1,9 @@
-import './assets/main.css'
+import '@/assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from '@/router/index'
-import App from './App.vue'
+import App from '@/App.vue'
 
 // Vuetify
 import 'vuetify/styles'

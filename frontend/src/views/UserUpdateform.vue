@@ -32,7 +32,7 @@ const rules = {
 
 const updateUser = () => {
   axios.put("/api/user/" + id, form)
-  .then((res) => {
+  .then(res => {
     if (res.data.code === 0) {
       userStore.users.set(id, res.data.user) 
       router.push({ path: "/user/detail/" + id })

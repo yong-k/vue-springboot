@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -19,6 +21,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    public CommonRespDto login(@RequestBody String body) {
+        CommonRespDto commonRespDto = new CommonRespDto();
+        System.out.println("body: " + body);
+        //--==> body: {"username":"user","password":"dbdff635-d820-46de-9eda-1455e5fb94c7"}
+        System.out.println("LOGIN SUCCESS");
+        return commonRespDto;
+    }
 
     @PostMapping("/user")
     public CommonRespDto createUser(@RequestBody CreateUserReqDto createUserReqDto) {

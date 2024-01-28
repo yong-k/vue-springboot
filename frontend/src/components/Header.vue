@@ -7,8 +7,6 @@ if (window.location.pathname === '/')
     isVisible = false
 else
     isVisible = true
-
-console.log(isVisible)
 </script>
 
 <template>

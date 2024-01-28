@@ -20,7 +20,7 @@ function pageDown() {
   })
   .catch(err => {
     console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.');
+    window.alert('예상치 못한 오류가 발생했습니다.')
   })
 }
 
