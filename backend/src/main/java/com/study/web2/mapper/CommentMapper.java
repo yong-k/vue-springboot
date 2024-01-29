@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    int createComment(CommentVo comment);
+    void createComment(CommentVo comment);
 
     List<CommentVo> getAllComment(int pageNum, int numOfRows, Long postId, String name, String email, String body);
 

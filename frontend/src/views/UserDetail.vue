@@ -17,7 +17,7 @@ const deleteUser = () => {
     .then(res => {
       if (res.data.code === 0) {
         window.alert('삭제가 완료되었습니다.');
-        router.push({ path: "/" })
+        router.push({ path: "/user/list" })
       } else {
         window.alert('오류가 발생했습니다. 다시 시도해주세요.')
       }

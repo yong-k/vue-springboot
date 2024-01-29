@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface PhotoMapper {
 
-    int createPhoto(PhotoVo photo);
+    void createPhoto(PhotoVo photo);
 
     List<PhotoVo> getAllPhoto(int pageNum, int numOfRows, Long albumId, String title);
 

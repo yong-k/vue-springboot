@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface AlbumMapper {
 
-    int createAlbum(AlbumVo album);
+    void createAlbum(AlbumVo album);
 
     List<AlbumVo> getAllAlbum(int pageNum, int numOfRows, Long userId, String title);
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface PostMapper {
 
-    int createPost(PostVo post);
+    void createPost(PostVo post);
 
     List<PostVo> getAllPost(int pageNum, int numOfRows, Long userId, String title, String body);
 

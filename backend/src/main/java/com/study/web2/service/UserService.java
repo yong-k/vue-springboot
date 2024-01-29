@@ -4,6 +4,7 @@ import com.study.web2.exception.DataNotFoundException;
 import com.study.web2.mapper.UserMapper;
 import com.study.web2.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,12 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public void createUser(UserVo user) {
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userMapper.createUser(user);
     }
 
@@ -34,10 +40,24 @@ public class UserService {
         return user;
     }
 
+    public UserVo getUserByUsername(String username) {
+        UserVo user = userMapper.getUserByUsername(username);
+        if (username == null)
+            throw new DataNotFoundException("Not exist user: username = " + username);
+        return user;
+    }
+
     public void updateUser(UserVo user) {
+        if (!user.getPassword().isEmpty()) {
+            String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+            System.out.println("pw: " + encodedPassword);
+            user.setPassword(encodedPassword);
+        } else {
+            user.setPassword(userMapper.getEncodedPassword(user.getUsername()));
+        }
         int result = userMapper.updateUser(user);
         if (result < 1)
-            throw new DataNotFoundException("[UPDATE fail] Not exist user: id = " + user.getId());
+            throw new DataNotFoundException("[UPDATE fail] Not exist user: username = " + user.getUsername());
     }
 
     public void deleteUser(long id) {
@@ -52,5 +72,10 @@ public class UserService {
 
     public int countDuplicateEmail(String username, String email) {
         return userMapper.countDuplicateEmail(username, email);
+    }
+
+    public boolean isMatchPassword(String username, String inputPassword) {
+        String encodedPassword = userMapper.getEncodedPassword(username);
+        return bCryptPasswordEncoder.matches(inputPassword, encodedPassword);
     }
 }

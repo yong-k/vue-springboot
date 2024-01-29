@@ -98,7 +98,7 @@ function submit() {
   axios.post("/api/user", form)
   .then(res => {
     if (res.data.code === 0) 
-      router.push({ path: "/" })
+      router.push({ path: "/user/list" })
     else 
       window.alert('오류가 발생했습니다. 다시 시도해주세요.')
   })

@@ -7,13 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    int createUser(UserVo user);
+    void createUser(UserVo user);
 
     List<UserVo> getAllUser(int pageNum, int numOfRows, String username, String email);
 
     int countUser(String username, String email);
 
     UserVo getUserById(long id);
+
+    UserVo getUserByUsername(String username);
 
     int updateUser(UserVo user);
 
@@ -22,4 +24,6 @@ public interface UserMapper {
     int countDuplicateUsername(String username);
 
     int countDuplicateEmail(String username, String email);
+
+    String getEncodedPassword(String username);
 }
