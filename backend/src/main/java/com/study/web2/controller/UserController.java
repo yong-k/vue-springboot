@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -21,15 +19,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping("/login")
-    public CommonRespDto login(@RequestBody String body) {
-        CommonRespDto commonRespDto = new CommonRespDto();
-        System.out.println("body: " + body);
-        //--==> body: {"username":"user","password":"dbdff635-d820-46de-9eda-1455e5fb94c7"}
-        System.out.println("LOGIN SUCCESS");
-        return commonRespDto;
-    }
 
     @PostMapping("/user")
     public CommonRespDto createUser(@RequestBody CreateUserReqDto createUserReqDto) {
@@ -80,27 +69,6 @@ public class UserController {
         }
         return getUserRespDto;
     }
-//
-//    @PutMapping("/user/{id}")
-//    public CommonRespDto updateUser(@PathVariable long id, @RequestBody UpdateUserReqDto updateUserReqDto) {
-//        CommonRespDto commonRespDto = new CommonRespDto();
-//        try {
-//            UserVo user = new UserVo(updateUserReqDto);
-//            user.setId(id);
-//            userService.updateUser(user);
-//        } catch (DataNotFoundException e) {
-//            commonRespDto.setCode(ResultCode.DATA_NOT_FOUND.value());
-//            commonRespDto.setMessage(e.getLocalizedMessage());
-//        } catch (DataIntegrityViolationException e) {
-//            commonRespDto.setCode(ResultCode.DATA_INTEGRITY_VIOLATION.value());
-//            commonRespDto.setMessage("UPDATE fail");
-//        } catch (Exception e) {
-//            commonRespDto.setCode(ResultCode.UNKNOWN_ERROR.value());
-//            commonRespDto.setMessage("Unexpected Error");
-//            log.error("Error in UserController.updateUser()", e);
-//        }
-//        return commonRespDto;
-//    }
 
     @PutMapping("/user/{id}")
     public UpdateUserRespDto updateUser(@PathVariable long id, @RequestBody UpdateUserReqDto updateUserReqDto) {

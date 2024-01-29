@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios';
+import router from '@/router/index'
 import { ref, reactive } from 'vue';
 
 let submitFlag = ref(true)
@@ -18,8 +19,12 @@ function submit() {
     return false
   }
   else {
-    axios.post("/login", form).then(res => {
-      console.log("login: " + res)
+    axios.post("/login", form, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then(res => {
+      router.push({ path: "/user/list" })
     }).catch(err => {
       console.log(err)
       window.alert('예상치 못한 오류가 발생했습니다.')
@@ -38,6 +43,7 @@ function submit() {
           @keyup.enter="submit()" />
           <v-text-field label="password" type="password" v-model="form.password" :rules="[rules.required]" 
           @keyup.enter="submit()" />
+          <input type="hidden" name="_token" v-bind:value="csrf">
           <v-btn @click="submit()" block class="mt-2" color="#5865f2" size="large" style="height: 54px;">로그인</v-btn>
           <span v-if="!submitFlag" class="error-msg">아이디와 비밀번호를 모두 입력해주세요.</span>
         </v-form>
