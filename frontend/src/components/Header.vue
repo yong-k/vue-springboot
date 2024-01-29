@@ -12,7 +12,7 @@ else
 <template>
     <div id="header" v-if="isVisible">
         <router-link to="/">
-            <img id="logo" src="/vue-home.png" to="/">
+            <img id="logo" src="@/assets/vue-home.png" to="/">
         </router-link>
         <div class="header-right-box">
             <a href="">로그인</a>

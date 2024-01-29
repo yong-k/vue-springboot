@@ -1,5 +1,5 @@
 <script setup>
-import router from '@/router/index'
+import router from '@/router/router'
 import axios from 'axios'
 import { ref } from 'vue'
 
