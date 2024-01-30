@@ -19,11 +19,13 @@ function submit() {
     return false
   }
   else {
-    axios.post("/login", form, {
+    const config = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
-    }).then(res => {
+    }
+
+    axios.post("/login", form, config).then(res => {
       router.push({ path: "/user/list" })
     }).catch(err => {
       console.log(err)
