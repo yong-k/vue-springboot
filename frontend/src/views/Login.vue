@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import router from '@/router/index'
+import router from '@/router/router'
 import { ref, reactive } from 'vue';
 
 let submitFlag = ref(true)

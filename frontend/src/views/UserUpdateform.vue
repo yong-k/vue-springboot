@@ -1,6 +1,6 @@
 <script setup>
 import { useUserStore } from '@/stores/user'
-import router from '@/router/index'
+import router from '@/router/router'
 import axios from 'axios'
 import { onMounted } from 'vue';
 import { ref, reactive } from 'vue'
