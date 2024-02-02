@@ -1,6 +1,8 @@
 package com.study.web2.security;
 
-import com.study.web2.security.jwt.JwtAuthenticationFilter;
+import com.study.web2.security.jwt.JwtAccessDeniedHandler;
+import com.study.web2.security.jwt.JwtAuthenticationEntryPoint;
+import com.study.web2.security.jwt.JwtFilter;
 import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,33 +19,33 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    private JwtFilter jwtFilter;
+
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(httpBasic -> httpBasic.disable())
-                .formLogin(form -> form.disable())
+//                .httpBasic(httpBasic -> httpBasic.disable())
+//                .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/", "/login").permitAll()
-                        .requestMatchers("/assets/**").permitAll()
+                        .requestMatchers("/", "/login", "/api/login").permitAll()
+                        .requestMatchers("/assets/**", "/favicon.ico", "/index.html").permitAll()
                         .requestMatchers("/api/user").hasRole("ADMIN")
                         .anyRequest().authenticated()
-                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/")
-
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                );
         return http.build();
     }
 
