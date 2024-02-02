@@ -24,7 +24,12 @@ function submit() {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      router.push({ path: "/user/list" })
+      console.log("res: " + res.data.username) // username
+      //test
+      if (res.data.username != "qwer") {
+        console.log("사용자이름 다름")
+      }
+      //router.push({ path: "/user/list" })
     }).catch(err => {
       console.log(err)
       window.alert('예상치 못한 오류가 발생했습니다.')

@@ -1,1 +1,0 @@
-import{j as o,a,g as n}from"./index-9AFEDa5t.js";const i=o("user",()=>{const t=a(new Map);async function r(s){try{const e=await n.get("/api/user/"+s);this.users.set(s,e.data.user),console.log("Call getUser() in actions")}catch(e){console.log(e),window.alert("예상치 못한 오류가 발생했습니다.")}}return{users:t,getUser:r}});export{i as u};
