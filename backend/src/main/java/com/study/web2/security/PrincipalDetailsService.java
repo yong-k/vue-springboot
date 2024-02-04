@@ -1,7 +1,6 @@
 package com.study.web2.security;
 
 import com.study.web2.mapper.UserMapper;
-import com.study.web2.security.PrincipalDetails;
 import com.study.web2.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

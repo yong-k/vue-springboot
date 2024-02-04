@@ -41,7 +41,7 @@ public class SecurityConfig {
 //                .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/", "/login", "/api/login").permitAll()
+                        .requestMatchers("/", "/login", "/api/login", "/api/check").permitAll()
                         .requestMatchers("/assets/**", "/favicon.ico", "/index.html").permitAll()
                         .requestMatchers("/api/user").hasRole("ADMIN")
                         .anyRequest().authenticated()

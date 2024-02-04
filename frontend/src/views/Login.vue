@@ -1,8 +1,8 @@
 <script setup>
-import axios from 'axios';
-import router from '@/router/router'
+import { useAuthStore } from '@/stores/auth'
 import { ref, reactive } from 'vue';
 
+const authStore = useAuthStore()
 let submitFlag = ref(true)
 const form = reactive({
   username: "",
@@ -19,21 +19,7 @@ function submit() {
     return false
   }
   else {
-    axios.post("/api/login", form, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => {
-      console.log("res: " + res.data.username) // username
-      //test
-      if (res.data.username != "qwer") {
-        console.log("사용자이름 다름")
-      }
-      //router.push({ path: "/user/list" })
-    }).catch(err => {
-      console.log(err)
-      window.alert('예상치 못한 오류가 발생했습니다.')
-    })
+    authStore.login(form)
   }
 }
 </script>

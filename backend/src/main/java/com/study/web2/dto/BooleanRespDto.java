@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BooleanRespDto {
+    private int code = ResultCode.SUCCESS.value();
     private boolean isTrue;
     private String message;
 }

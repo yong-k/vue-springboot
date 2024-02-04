@@ -37,9 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (cookie != null) {
             jwt = cookie.getValue();
         }
-//        log.info("jwt: " + jwt);
-//        log.info("requestURI: " + requestURI);
-        System.out.println("jwt = " + jwt);
 
         if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
             String username = jwtUtils.getUsernameFromJwtToken(jwt);
@@ -48,18 +45,7 @@ public class JwtFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            System.out.println("test");
-            System.out.println("username = " + username);
-            System.out.println("userDetails = " + userDetails);
-            System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
-            log.info("Save Info '{}' in Security Context, URI: {}", authentication.getName(), requestURI);
         }
-//        else {
-//            log.error("Not exist valid JWT token, URI: {}", requestURI);
-//        }
-
         filterChain.doFilter(request, response);
     }
 

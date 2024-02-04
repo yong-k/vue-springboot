@@ -1,35 +1,28 @@
 <script setup>
-import axios from 'axios';
+import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue';
 
+const authStore = useAuthStore()
 let isVisible = ref('true')
 
 if (window.location.pathname === '/') 
     isVisible = false
 else
     isVisible = true
-
-function logout() {
-    axios.post("/api/logout")
-    .then(res => {
-        console.log('로그아웃')
-        console.log("code: " + res.data.code)
-    })
-    .catch(err => {
-        console.log(err)
-        window.alert('예상치 못한 오류가 발생했습니다.')
-    })
-}
 </script>
 
 <template>
     <div id="header" v-if="isVisible">
-        <router-link to="/">
-            <img id="logo" src="@/assets/vue-home.png" to="/">
+        <router-link to="/" v-if="!authStore.username">
+            <img id="logo" src="@/assets/vue-home.png">
+        </router-link>
+        <router-link to="/user/list" v-else>
+            <img id="logo" src="@/assets/vue-home.png">
         </router-link>
         <div class="header-right-box">
-            <!-- <a href="">로그인</a> -->
-            <a @click="logout()">로그아웃</a>
+            <span id="username" v-if="authStore.username">{{ authStore.username }} 님</span>
+            <router-link to="/login" id="login" v-if="!authStore.username">로그인</router-link>
+            <a id="logout" @click="authStore.logout()" v-else>로그아웃</a>
         </div>
     </div>
     
@@ -43,5 +36,18 @@ function logout() {
 
 .header-right-box {
     float: right;
+}
+
+.header-right-box #username {
+    margin-right: 15px;
+}
+
+.header-right-box #login {
+    text-decoration: none;
+    color: #000000;
+}
+
+.header-right-box #logout {
+    cursor: pointer;
 }
 </style>
