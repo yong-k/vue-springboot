@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 public class JwtRespDto {
     private int code = ResultCode.SUCCESS.value();
+    private String message;
     private String username;
 }

@@ -1,22 +1,11 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue';
-
 const authStore = useAuthStore()
-let isVisible = ref('true')
-
-if (window.location.pathname === '/') 
-    isVisible = false
-else
-    isVisible = true
 </script>
 
 <template>
-    <div id="header" v-if="isVisible">
-        <router-link to="/" v-if="!authStore.username">
-            <img id="logo" src="@/assets/vue-home.png">
-        </router-link>
-        <router-link to="/user/list" v-else>
+    <div id="header">
+        <router-link to="/user/list">
             <img id="logo" src="@/assets/vue-home.png">
         </router-link>
         <div class="header-right-box">
@@ -25,7 +14,6 @@ else
             <a id="logout" @click="authStore.logout()" v-else>로그아웃</a>
         </div>
     </div>
-    
 </template>
 
 <style scoped>
