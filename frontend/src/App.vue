@@ -15,7 +15,7 @@ watch(route, () => {
 
 <template>
   <v-app>
-    <Header v-if="authStore.username" />
+    <Header />
     <router-view></router-view>
   </v-app>
 </template>

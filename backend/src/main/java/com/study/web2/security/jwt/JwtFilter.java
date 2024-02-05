@@ -31,12 +31,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
         Cookie cookie = WebUtils.getCookie(request, "accessToken");
-        String jwt = parseJwt(request);
-        if (cookie != null) {
+        String jwt = null;
+
+        if (cookie != null)
             jwt = cookie.getValue();
-        }
 
         if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
             String username = jwtUtils.getUsernameFromJwtToken(jwt);
@@ -47,12 +46,5 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
-    }
-
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer "))
-            return headerAuth.substring(7);
-        return null;
     }
 }

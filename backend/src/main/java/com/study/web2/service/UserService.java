@@ -50,7 +50,6 @@ public class UserService {
     public void updateUser(UserVo user) {
         if (!user.getPassword().isEmpty()) {
             String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-            System.out.println("pw: " + encodedPassword);
             user.setPassword(encodedPassword);
         } else {
             user.setPassword(userMapper.getEncodedPassword(user.getUsername()));

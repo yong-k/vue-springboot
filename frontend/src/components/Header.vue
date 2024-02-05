@@ -5,7 +5,10 @@ const authStore = useAuthStore()
 
 <template>
     <div id="header">
-        <router-link to="/user/list">
+        <router-link to="/" v-if="!authStore.username">
+            <img id="logo" src="@/assets/vue-home.png">
+        </router-link>
+        <router-link to="/user/list" v-else>
             <img id="logo" src="@/assets/vue-home.png">
         </router-link>
         <div class="header-right-box">

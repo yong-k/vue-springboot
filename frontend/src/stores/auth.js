@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     function logout() {
         axios.post("/api/logout")
         .then(res => {
-            router.push({ path: "/" })
+            router.push({ path: "/login" })
         })
         .catch(err => {
             console.log(err)
