@@ -1,6 +1,20 @@
 <script setup>
+import router from '@/router/router';
 import { useAuthStore } from '@/stores/auth'
+import axios from 'axios';
+
 const authStore = useAuthStore()
+
+function logout() {
+    axios.post("/api/logout")
+        .then(res => {
+            router.push({ path: "/login" })
+        })
+        .catch(err => {
+            console.log(err)
+            window.alert('예상치 못한 오류가 발생했습니다.')
+        })
+}
 </script>
 
 <template>
@@ -14,7 +28,7 @@ const authStore = useAuthStore()
         <div class="header-right-box">
             <span id="username" v-if="authStore.username">{{ authStore.username }} 님</span>
             <router-link to="/login" id="login" v-if="!authStore.username">로그인</router-link>
-            <a id="logout" @click="authStore.logout()" v-else>로그아웃</a>
+            <a id="logout" @click="logout()" v-else>로그아웃</a>
         </div>
     </div>
 </template>

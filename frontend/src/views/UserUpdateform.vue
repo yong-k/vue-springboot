@@ -32,18 +32,18 @@ const rules = {
 
 const updateUser = () => {
   axios.put("/api/user/" + id, form)
-  .then(res => {
-    if (res.data.code === 0) {
-      userStore.users.set(id, res.data.user) 
-      router.push({ path: "/user/detail/" + id })
-    } else {
-      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
-    }
-  })
-  .catch(err => {
-    console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.');
-  })
+    .then(res => {
+      if (res.data.code === 0) {
+        userStore.users.set(id, res.data.user) 
+        router.push({ path: "/user/detail/" + id })
+      } else {
+        window.alert('오류가 발생했습니다. 다시 시도해주세요.')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.');
+    })
 }
 
 onMounted(async() => {

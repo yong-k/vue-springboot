@@ -15,36 +15,36 @@ const showUserDetail = (id) => {
 function pageDown() {
   pageNum.value--
   axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + NUM_OF_ROWS)
-  .then(res => {
-    userList.value = res.data.userList
-  })
-  .catch(err => {
-    console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.')
-  })
+    .then(res => {
+      userList.value = res.data.userList
+    })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.')
+    })
 }
 
 function pageUp() {
   pageNum.value++
   axios.get("/api/user?pageNum=" + pageNum.value + "&numOfRows=" + NUM_OF_ROWS)
+    .then(res => {
+      userList.value = res.data.userList
+    })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.');
+    })
+}
+
+axios.get("/api/user?numOfRows=" + NUM_OF_ROWS)
   .then(res => {
     userList.value = res.data.userList
+    totalPages.value = res.data.page.totalPages
   })
   .catch(err => {
     console.log(err)
     window.alert('예상치 못한 오류가 발생했습니다.');
   })
-}
-
-axios.get("/api/user?numOfRows=" + NUM_OF_ROWS)
-.then(res => {
-  userList.value = res.data.userList
-  totalPages.value = res.data.page.totalPages
-})
-.catch(err => {
-  console.log(err)
-  window.alert('예상치 못한 오류가 발생했습니다.');
-})
 </script>
 
 <template>

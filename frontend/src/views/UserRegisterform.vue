@@ -69,18 +69,18 @@ function checkEmail(username, email) {
     email: email
   }
   axios.get("/api/checkemail", {params})
-  .then((res) => {
-    emailFlag = res.data.true
-    if (emailFlag)
-      emailErrMsg.value = []
-    else
-      emailErrMsg.value = ['사용할 수 없는 이메일입니다.']
-    return emailFlag
-  })
-  .catch(err => {
-    console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.');
-  })
+    .then((res) => {
+      emailFlag = res.data.true
+      if (emailFlag)
+        emailErrMsg.value = []
+      else
+        emailErrMsg.value = ['사용할 수 없는 이메일입니다.']
+      return emailFlag
+    })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.');
+    })
 }
 
 function checkPassword(pw, checkPw) {
@@ -96,16 +96,16 @@ function checkPassword(pw, checkPw) {
 
 function submit() {
   axios.post("/api/user", form)
-  .then(res => {
-    if (res.data.code === 0) 
-      router.push({ path: "/user/list" })
-    else 
-      window.alert('오류가 발생했습니다. 다시 시도해주세요.')
-  })
-  .catch(err => {
-    console.log(err)
-    window.alert('예상치 못한 오류가 발생했습니다.')
-  })
+    .then(res => {
+      if (res.data.code === 0) 
+        router.push({ path: "/user/list" })
+      else 
+        window.alert('오류가 발생했습니다. 다시 시도해주세요.')
+    })
+    .catch(err => {
+      console.log(err)
+      window.alert('예상치 못한 오류가 발생했습니다.')
+    })
 }
 </script>
 
